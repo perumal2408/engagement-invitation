@@ -370,10 +370,10 @@ body.cursor-hover .custom-cursor-ring {
 }
 
 .couple-hi-avatar {
-  width: 190px;
+  width: 230px;
   height: auto;
   display: block;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.65));
 }
 
 /* Champagne Glasses Toast Clinking Animation Modal */

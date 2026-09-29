@@ -185,11 +185,11 @@
     font-size: 1.1rem;
   }
 
-  /* Bottom-Right Couple Logo Widget — Sized Down for Mobile */
+  /* Bottom-Right Couple Logo Widget — Sized for Visibility on Mobile */
   #couple-hi-widget {
-    right: 10px;
+    right: 12px;
     bottom: 0;
-    transform: translateY(220px);
+    transform: translateY(290px);
   }
 
   #couple-hi-widget.active {
@@ -197,25 +197,25 @@
   }
 
   .couple-hi-avatar {
-    width: 96px;
-    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.65));
+    width: 135px;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.7));
   }
 
   .dream-bubble {
-    font-size: 0.72rem;
-    padding: 6px 12px;
-    max-width: 190px;
+    font-size: 0.78rem;
+    padding: 7px 14px;
+    max-width: 215px;
     white-space: normal;
     text-align: center;
     line-height: 1.35;
     border-radius: 14px;
     margin-bottom: 6px;
     border-width: 1px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
   }
 
   .dream-bubble::after {
-    right: 22px;
+    right: 26px;
     bottom: -6px;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
@@ -224,27 +224,27 @@
 }
 
 @keyframes couple-jump-mobile {
-  0%   { transform: translateY(220px); }
-  60%  { transform: translateY(-12px); }
-  75%  { transform: translateY(5px); }
+  0%   { transform: translateY(290px); }
+  60%  { transform: translateY(-14px); }
+  75%  { transform: translateY(6px); }
   90%  { transform: translateY(-2px); }
   100% { transform: translateY(0); }
 }
 
 @media (max-width: 480px) {
   #couple-hi-widget {
-    right: 6px;
-    transform: translateY(180px);
+    right: 8px;
+    transform: translateY(260px);
   }
 
   .couple-hi-avatar {
-    width: 80px;
+    width: 120px;
   }
 
   .dream-bubble {
-    font-size: 0.66rem;
-    padding: 5px 10px;
-    max-width: 160px;
+    font-size: 0.72rem;
+    padding: 6px 12px;
+    max-width: 185px;
     border-radius: 12px;
   }
 

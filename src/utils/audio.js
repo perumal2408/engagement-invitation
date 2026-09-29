@@ -1,136 +1,91 @@
-// Audio Utility — Laxman & Abi Engagement Invitation
-// Auto-starts ambient music on first user interaction (browser autoplay policy)
+// Audio Engine with Real MP3 Background Music & Smart Autoplay / Mute Controller
+// Laxman & Abi Engagement Invitation
 
-let audioCtx = null;
+let bgAudio = null;
 let isPlaying = false;
-let masterGain = null;
-let timerId = null;
-let autoStarted = false;
+let userManuallyMuted = false;
 
 export function initMusic() {
   const musicBtn = document.getElementById('music-toggle');
   if (!musicBtn) return;
 
-  // Update button icon state
-  function updateButton() {
+  // Initialize HTML Audio element with the uploaded music
+  if (!bgAudio) {
+    bgAudio = new Audio('/audio/bg-music.mp3');
+    bgAudio.loop = true;
+    bgAudio.volume = 0.65;
+    bgAudio.preload = 'auto';
+  }
+
+  function updateButtonUI() {
     if (isPlaying) {
       musicBtn.innerHTML = '<span class="music-icon" style="color: var(--gold-light);">♫</span>';
-      musicBtn.title = 'Pause Music';
+      musicBtn.title = 'Mute Background Music';
       musicBtn.classList.add('playing');
+      musicBtn.setAttribute('aria-label', 'Mute Music');
     } else {
-      musicBtn.innerHTML = '<span class="music-icon">🔇</span>';
-      musicBtn.title = 'Play Music';
+      musicBtn.innerHTML = '<span class="music-icon" style="opacity: 0.7;">🔇</span>';
+      musicBtn.title = 'Play Background Music';
       musicBtn.classList.remove('playing');
+      musicBtn.setAttribute('aria-label', 'Unmute Music');
     }
   }
 
-  // Auto-start on first interaction (click, scroll, touch anywhere)
-  function autoStartOnInteraction() {
-    if (autoStarted) return;
-    autoStarted = true;
-    document.removeEventListener('click', autoStartOnInteraction, true);
-    document.removeEventListener('scroll', autoStartOnInteraction, true);
-    document.removeEventListener('touchstart', autoStartOnInteraction, true);
-
-    if (!isPlaying) {
-      startAmbientSynth();
+  async function tryPlay() {
+    if (userManuallyMuted || isPlaying || !bgAudio) return;
+    try {
+      await bgAudio.play();
       isPlaying = true;
-      updateButton();
-    }
-  }
-
-  // Listen for first interaction
-  document.addEventListener('click', autoStartOnInteraction, true);
-  document.addEventListener('scroll', autoStartOnInteraction, true);
-  document.addEventListener('touchstart', autoStartOnInteraction, { capture: true, passive: true });
-
-  // Manual toggle
-  musicBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Don't double-fire the auto-start
-    if (isPlaying) {
-      stopAmbientSynth();
+      updateButtonUI();
+    } catch (err) {
+      // Browser autoplay policy blocked; waiting for first interaction
       isPlaying = false;
-    } else {
-      startAmbientSynth();
-      isPlaying = true;
+      updateButtonUI();
     }
-    updateButton();
-    autoStarted = true; // Mark as handled
+  }
+
+  // Attempt instant autoplay on load
+  tryPlay();
+
+  // Smart Autoplay fallback on the very first user touch / click / scroll anywhere on the screen
+  function handleFirstInteraction() {
+    if (!userManuallyMuted && !isPlaying) {
+      tryPlay();
+    }
+    removeInteractionListeners();
+  }
+
+  function removeInteractionListeners() {
+    window.removeEventListener('click', handleFirstInteraction, true);
+    window.removeEventListener('touchstart', handleFirstInteraction, true);
+    window.removeEventListener('scroll', handleFirstInteraction, true);
+    window.removeEventListener('keydown', handleFirstInteraction, true);
+  }
+
+  window.addEventListener('click', handleFirstInteraction, true);
+  window.addEventListener('touchstart', handleFirstInteraction, { capture: true, passive: true });
+  window.addEventListener('scroll', handleFirstInteraction, { capture: true, passive: true });
+  window.addEventListener('keydown', handleFirstInteraction, true);
+
+  // Manual Mute / Unmute Button Toggle
+  musicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!bgAudio) return;
+
+    if (isPlaying) {
+      bgAudio.pause();
+      isPlaying = false;
+      userManuallyMuted = true;
+    } else {
+      userManuallyMuted = false;
+      bgAudio.play().then(() => {
+        isPlaying = true;
+        updateButtonUI();
+      }).catch((e) => console.warn('Audio play error:', e));
+    }
+    updateButtonUI();
   });
-}
 
-function startAmbientSynth() {
-  if (!audioCtx) {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AudioContext();
-  }
-
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
-
-  masterGain = audioCtx.createGain();
-  masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
-  masterGain.gain.linearRampToValueAtTime(0.14, audioCtx.currentTime + 2);
-  masterGain.connect(audioCtx.destination);
-
-  // Gentle romantic pentatonic chimes in D Major (warm & celebratory)
-  const frequencies = [
-    293.66, // D4
-    329.63, // E4
-    369.99, // F#4
-    440.00, // A4
-    493.88, // B4
-    587.33, // D5
-    659.25, // E5
-  ];
-
-  function playNextChime() {
-    if (!isPlaying || !audioCtx || !masterGain) return;
-
-    const freq = frequencies[Math.floor(Math.random() * frequencies.length)];
-    const osc = audioCtx.createOscillator();
-    const noteGain = audioCtx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-    // Also add a soft harmonics oscillator for warmth
-    const osc2 = audioCtx.createOscillator();
-    const noteGain2 = audioCtx.createGain();
-    osc2.type = 'triangle';
-    osc2.frequency.setValueAtTime(freq * 2, audioCtx.currentTime);
-    noteGain2.gain.setValueAtTime(0.001, audioCtx.currentTime);
-    noteGain2.gain.exponentialRampToValueAtTime(0.04, audioCtx.currentTime + 0.6);
-    noteGain2.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5);
-    osc2.connect(noteGain2);
-    noteGain2.connect(masterGain);
-    osc2.start();
-    osc2.stop(audioCtx.currentTime + 3.5);
-
-    noteGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-    noteGain.gain.exponentialRampToValueAtTime(0.18, audioCtx.currentTime + 0.5);
-    noteGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 4.0);
-
-    osc.connect(noteGain);
-    noteGain.connect(masterGain);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime + 4.0);
-
-    timerId = setTimeout(playNextChime, 1400 + Math.random() * 1200);
-  }
-
-  playNextChime();
-}
-
-function stopAmbientSynth() {
-  if (timerId) {
-    clearTimeout(timerId);
-    timerId = null;
-  }
-  if (masterGain && audioCtx) {
-    masterGain.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
-  }
-  masterGain = null;
+  // Exported global trigger to start audio (e.g. when clicking "Enter Invitation" or "Join Celebration")
+  window.playInvitationMusic = tryPlay;
 }

@@ -1,5 +1,5 @@
 // "Leave a Message" Live Guestbook Component — Laxman & Abi
-// Real-time Cloud Storage with Firebase Firestore + Local Fallback + Admin Moderation / Deletion
+// Real-time Cloud Storage with Firebase Firestore + Local Fallback + Guest Name Integration & Admin Moderation
 
 import { initializeApp } from 'firebase/app';
 import {
@@ -24,8 +24,50 @@ export function initGuestbook() {
   if (!form || !textarea || !listEl) return;
 
   const STORAGE_KEY = 'laxman_abi_guestbook_messages';
-  const ADMIN_PIN = '2026'; // Admin Passcode to enable one-tap deletion mode
+  const ADMIN_PIN = '2026';
   let isAdmin = localStorage.getItem('laxman_abi_guestbook_admin') === 'true';
+
+  // Inject "Posting as: [Name]" badge above textarea if not present
+  let userBadgeEl = document.getElementById('guestbook-user-badge');
+  if (!userBadgeEl) {
+    userBadgeEl = document.createElement('div');
+    userBadgeEl.id = 'guestbook-user-badge';
+    userBadgeEl.style.display = 'flex';
+    userBadgeEl.style.alignItems = 'center';
+    userBadgeEl.style.justifyContent = 'space-between';
+    userBadgeEl.style.padding = '8px 14px';
+    userBadgeEl.style.background = 'rgba(0, 0, 0, 0.3)';
+    userBadgeEl.style.border = '1px solid rgba(212, 175, 55, 0.25)';
+    userBadgeEl.style.borderRadius = '12px';
+    userBadgeEl.style.marginBottom = '8px';
+    userBadgeEl.style.fontSize = '0.88rem';
+    form.parentNode.insertBefore(userBadgeEl, form);
+  }
+
+  function updateUserBadge() {
+    const currentName = localStorage.getItem('laxman_abi_guest_name') || 'Guest';
+    userBadgeEl.innerHTML = `
+      <span>Posting as: <strong style="color: var(--gold-light);">${escapeHtml(currentName)}</strong></span>
+      <button type="button" id="btn-edit-guest-name" style="background: transparent; border: none; color: var(--gold-primary); cursor: pointer; font-size: 0.8rem; text-decoration: underline; padding: 2px 6px;">
+        ✏️ Change name
+      </button>
+    `;
+    const editBtn = document.getElementById('btn-edit-guest-name');
+    if (editBtn) {
+      editBtn.addEventListener('click', () => {
+        if (typeof window.openNameModal === 'function') {
+          window.openNameModal();
+        }
+      });
+    }
+  }
+
+  updateUserBadge();
+
+  // Listen for guest name updates
+  window.addEventListener('guestNameChanged', () => {
+    updateUserBadge();
+  });
 
   // Default Warm Initial Messages
   const defaultMessages = [
@@ -48,13 +90,13 @@ export function initGuestbook() {
         clickCount = 0;
         if (isAdmin) {
           isAdmin = false;
-          localStorage.removeItem('laxman_abi_guestbook_admin');
+          localStorage.removeItem('laxman_abi_guest_admin');
           alert('Admin mode disabled.');
         } else {
           const pin = prompt('Enter Admin PIN to manage/delete comments (Default: 2026):');
           if (pin === ADMIN_PIN) {
             isAdmin = true;
-            localStorage.setItem('laxman_abi_guestbook_admin', 'true');
+            localStorage.setItem('laxman_abi_guest_admin', 'true');
             alert('Admin Mode Activated! You can now delete any message with the trash 🗑️ button.');
           } else if (pin !== null) {
             alert('Incorrect PIN.');
@@ -74,7 +116,6 @@ export function initGuestbook() {
       const wishesRef = collection(db, 'wishes');
       const q = query(wishesRef, orderBy('createdAt', 'desc'));
 
-      // Realtime listener
       unsubscribeFirestore = onSnapshot(q, (snapshot) => {
         currentMessages = snapshot.docs.map((docSnap) => ({
           id: docSnap.id,
@@ -133,14 +174,13 @@ export function initGuestbook() {
       const authorHtml = `<div class="msg-author">${escapeHtml(m.author || 'Well-wisher')}</div>`;
       const textHtml = `<div class="msg-text">${escapeHtml(m.text || '')}</div>`;
 
-      // If Admin mode is enabled, show delete button
       let deleteBtnHtml = '';
       if (isAdmin) {
         deleteBtnHtml = `
           <button
             class="delete-msg-btn"
             data-id="${escapeHtml(m.id || '')}"
-            style="position: absolute; top: 12px; right: 12px; background: rgba(220, 20, 60, 0.2); border: 1px solid crimson; color: #ff6b6b; border-radius: 8px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s ease;"
+            style="position: absolute; top: 12px; right: 12px; background: rgba(220, 20, 60, 0.25); border: 1px solid crimson; color: #ff6b6b; border-radius: 8px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer; transition: all 0.2s ease;"
             title="Delete this comment"
           >
             🗑️ Delete
@@ -152,7 +192,6 @@ export function initGuestbook() {
       listEl.appendChild(card);
     });
 
-    // Attach delete listeners in Admin mode
     if (isAdmin) {
       const deleteBtns = listEl.querySelectorAll('.delete-msg-btn');
       deleteBtns.forEach((btn) => {
@@ -175,7 +214,6 @@ export function initGuestbook() {
         alert('Could not delete from cloud. Check Firebase permissions.');
       }
     } else {
-      // Local storage delete
       currentMessages = currentMessages.filter((m) => m.id !== id);
       saveLocalMessages(currentMessages);
       renderMessages();
@@ -191,7 +229,12 @@ export function initGuestbook() {
     const text = textarea.value.trim();
     if (!text) return;
 
-    const savedName = localStorage.getItem('laxman_abi_guest_name') || 'Guest';
+    let savedName = localStorage.getItem('laxman_abi_guest_name') || '';
+    if (!savedName) {
+      savedName = prompt('Please enter your name for the wish:') || 'Guest';
+      localStorage.setItem('laxman_abi_guest_name', savedName);
+      updateUserBadge();
+    }
 
     if (db && isFirebaseConfigured()) {
       try {
