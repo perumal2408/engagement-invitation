@@ -1,0 +1,162 @@
+/* Hero Section Styles — Laxman & Abi — Full Edge-to-Edge */
+
+.hero-scene {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg-red-deep);
+}
+
+/* Hero image fills the full section */
+.centerpiece-hero-img {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: block;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Hero Overlay: Names + Date + Venue floating over image */
+.hero-overlay-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 80px 30px 48px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.hero-date-pill {
+  font-family: var(--font-sans);
+  font-size: clamp(0.68rem, 1.4vw, 0.88rem);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  background: rgba(144, 5, 12, 0.65);
+  padding: 6px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--gold-border);
+  backdrop-filter: blur(8px);
+}
+
+.hero-names {
+  font-family: var(--font-script);
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  color: #fff;
+  text-shadow: 0 0 40px var(--gold-glow), 0 4px 20px rgba(0, 0, 0, 0.9);
+  line-height: 1;
+  margin: 4px 0;
+}
+
+.hero-amp {
+  color: var(--gold-light);
+  font-size: 0.8em;
+  margin: 0 12px;
+  text-shadow: 0 0 25px var(--gold-glow);
+}
+
+.hero-venue-pill {
+  font-family: var(--font-sans);
+  font-size: clamp(0.65rem, 1.3vw, 0.85rem);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Mobile Responsive Hero Section — Unzoomed & Resized */
+@media (max-width: 768px) {
+  .hero-scene {
+    min-height: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 72px 16px 24px;
+    background: radial-gradient(circle at 50% 30%, var(--bg-red-vibrant) 0%, var(--bg-red-dark) 70%, var(--bg-red-deep) 100%);
+  }
+
+  .centerpiece-hero-img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    min-height: unset;
+    max-height: 50vh;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.25);
+    border: 1px solid var(--gold-border);
+  }
+
+  .hero-overlay-text {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    padding: 16px 10px 8px;
+    background: transparent;
+    gap: 8px;
+  }
+
+  .hero-names {
+    font-size: clamp(2.4rem, 8.5vw, 3.6rem);
+    text-shadow: 0 0 25px var(--gold-glow), 0 2px 10px rgba(0, 0, 0, 0.8);
+  }
+
+  .hero-amp {
+    margin: 0 6px;
+  }
+
+  .hero-date-pill {
+    font-size: 0.72rem;
+    padding: 4px 14px;
+    letter-spacing: 3px;
+  }
+
+  .hero-venue-pill {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-scene {
+    padding: 64px 12px 18px;
+  }
+
+  .centerpiece-hero-img {
+    max-height: 44vh;
+    border-radius: 14px;
+  }
+
+  .hero-names {
+    font-size: clamp(2rem, 9vw, 2.7rem);
+  }
+
+  .hero-date-pill {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    letter-spacing: 2px;
+  }
+
+  .hero-venue-pill {
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+  }
+}

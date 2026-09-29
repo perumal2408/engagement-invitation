@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Open Graph & Metadata -->
+    <title>Laxman & Abi — Cinematic Engagement Invitation</title>
+    <meta name="title" content="Laxman & Abi — Cinematic Engagement Invitation" />
+    <meta name="description" content="Join Laxman & Abi as they celebrate their engagement on 21 October 2026 at Eden Garden, Tirunelveli." />
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Laxman & Abi — Cinematic Engagement Invitation" />
+    <meta property="og:description" content="Join Laxman & Abi as they celebrate their engagement on 21 October 2026 at Eden Garden, Tirunelveli." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/src/styles/global.css">
+    <link rel="stylesheet" href="/src/styles/hero.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/src/styles/global.css">
+    <link rel="stylesheet" href="/src/styles/hero.css">
+    <link rel="stylesheet" href="/src/styles/responsive.css">
+  </head>
+  <body>
+    <!-- Custom Cursor for Desktop -->
+    <div class="custom-cursor-dot" id="cursor-dot"></div>
+    <div class="custom-cursor-ring" id="cursor-ring"></div>
+
+    <!-- WebGL Canvas for 3D Background & Fireflies -->
+    <canvas id="webgl-canvas" aria-hidden="true"></canvas>
+
+    <!-- Floating Floral Petals Container (disabled) -->
+    <div id="floral-container" aria-hidden="true" style="display:none;"></div>
+
+    <!-- 3-Second Intro Overlay ("Something BIG is happening...") -->
+    <div id="page-transition" role="dialog" aria-label="Loading Intro">
+      <div class="gold-line"></div>
+      <h1 class="intro-glowing-text">Something BIG is happening...</h1>
+      <p class="intro-tagline">A celebration of love awaits you</p>
+      <button id="btn-skip-intro" class="skip-intro-btn">Enter Invitation ➔</button>
+    </div>
+
+    <!-- Name Entry Popup Modal -->
+    <div id="name-modal-overlay" role="dialog" aria-label="Guest Name Entry">
+      <div class="name-modal-card">
+        <h2 class="script-text" style="font-size: 2.4rem; color: var(--gold-light);">Welcome! ✨</h2>
+        <p class="name-modal-question">Before we reveal the magic, who is joining our celebration?</p>
+        <form id="name-modal-form" style="width: 100%; display: flex; flex-direction: column; gap: 16px;">
+          <input type="text" id="name-input" class="name-input-field" placeholder="Enter your name..." required />
+          <button type="submit" class="primary-btn" style="background: var(--gold-gradient); color: #000; border: none; padding: 14px 28px; border-radius: 30px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px;">
+            Join Celebration 🎉
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Champagne Clinking Toast Modal (injected by JS, but pre-declared here for clarity) -->
+    <!-- coupleHiWidget and toastCliModal are injected by JS -->
+
+    <!-- Main Web App -->
+    <div id="app" style="opacity: 0;">
+      
+      <!-- Minimal Floating Navigation -->
+      <nav id="floating-nav" aria-label="Main Navigation">
+        <ul>
+          <li><a href="#hero-section" class="nav-link active">Home</a></li>
+          <li><a href="#story" class="nav-link">Our Story</a></li>
+          <li><a href="#scratch-section" class="nav-link">Scratch</a></li>
+          <li><a href="#date" class="nav-link">Date</a></li>
+          <li><a href="#venue" class="nav-link">Venue</a></li>
+          <li><a href="#guestbook" class="nav-link">Guestbook</a></li>
+        </ul>
+      </nav>
+
+      <!-- Music Toggle Button -->
+      <button id="music-toggle" aria-label="Toggle Ambient Audio" title="Toggle Background Music">
+        <span class="music-icon">♫</span>
+      </button>
+
+      <main>
+        <!-- Hero: Full-Width Edge-to-Edge Image -->
+        <section id="hero-section" class="hero-scene" aria-label="Laxman & Abi Centerpiece Hero">
+          <img src="/images/hero-tug-couple.jpg" alt="Laxman and Abi Engagement" class="centerpiece-hero-img" />
+          <div class="hero-overlay-text">
+            <p class="hero-date-pill">21 · October · 2026</p>
+            <h1 class="hero-names">Laxman <span class="hero-amp">&amp;</span> Abi</h1>
+            <p class="hero-venue-pill">Eden Garden, Tirunelveli</p>
+          </div>
+        </section>
+
+        <!-- Romantic Story Introduction -->
+        <section id="story" aria-label="Romantic Story">
+          <div class="story-content glass-panel" style="max-width: 900px; padding: 60px 40px; width: 100%;">
+            <h2 class="script-text" style="font-size: clamp(2.4rem, 5vw, 4rem);">Two hearts, one beautiful beginning.</h2>
+            <div class="gold-line-center"></div>
+            <p class="story-desc" style="font-size: clamp(1.1rem, 2vw, 1.35rem); line-height: 1.8; color: var(--text-muted); font-weight: 300;">
+              With love in their hearts and joy in their souls,<br>
+              <strong style="color: var(--gold-light);">Laxman &amp; Abi</strong> invite you to celebrate their engagement.
+            </p>
+          </div>
+        </section>
+
+        <!-- Digital Scratch-to-Reveal Card Section — Full Width -->
+        <section id="scratch-section" aria-label="Digital Scratch Card">
+          <div class="glass-panel scratch-section-card">
+            <div class="scratch-inner">
+              <h2 class="script-text" style="font-size: clamp(2.2rem, 4vw, 3.2rem);">Scratch to Reveal</h2>
+              <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 440px;">
+                Scratch off the gold foil to unveil a special message for you!
+              </p>
+              
+              <div class="scratch-card-wrapper">
+                <div class="scratch-revealed-text">
+                  ✨ You are invited to celebrate with us! ✨
+                </div>
+                <canvas id="scratch-canvas"></canvas>
+              </div>
+
+              <p class="scratch-hint-text">← Use your finger or mouse to scratch →</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Date Reveal & Live Countdown -->
+        <section id="date" aria-label="Event Date and Countdown">
+          <div class="date-reveal" style="margin-bottom: 40px;">
+            <h2 class="day" style="font-family: var(--font-serif); font-size: clamp(4rem, 10vw, 8rem); font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">21</h2>
+            <h2 class="month" style="font-family: 'Cormorant Garamond', var(--font-serif); font-size: clamp(2.5rem, 6vw, 4.5rem); font-style: italic; letter-spacing: 8px; color: var(--gold-light);">October</h2>
+            <h2 class="year" style="font-family: var(--font-serif); font-size: clamp(1.5rem, 3vw, 2.5rem); letter-spacing: 6px; color: var(--text-muted);">2026</h2>
+            <div class="gold-line-center"></div>
+            <p style="font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold-light);">Save the Date</p>
+          </div>
+          
+          <div class="countdown-container glass-panel" aria-label="Live Countdown Timer" style="display: flex; gap: clamp(12px, 3vw, 36px); padding: 30px clamp(20px, 4vw, 50px); width: 100%; max-width: 700px; justify-content: center;">
+            <div class="countdown-item" style="display: flex; flex-direction: column; align-items: center; min-width: clamp(60px, 12vw, 110px);">
+              <span id="cd-days" style="font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 600; color: var(--text-ivory);">00</span>
+              <small style="font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); margin-top: 6px;">Days</small>
+            </div>
+            <div class="countdown-item" style="display: flex; flex-direction: column; align-items: center; min-width: clamp(60px, 12vw, 110px);">
+              <span id="cd-hours" style="font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 600; color: var(--text-ivory);">00</span>
+              <small style="font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); margin-top: 6px;">Hours</small>
+            </div>
+            <div class="countdown-item" style="display: flex; flex-direction: column; align-items: center; min-width: clamp(60px, 12vw, 110px);">
+              <span id="cd-minutes" style="font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 600; color: var(--text-ivory);">00</span>
+              <small style="font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); margin-top: 6px;">Minutes</small>
+            </div>
+            <div class="countdown-item" style="display: flex; flex-direction: column; align-items: center; min-width: clamp(60px, 12vw, 110px);">
+              <span id="cd-seconds" style="font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 600; color: var(--text-ivory);">00</span>
+              <small style="font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); margin-top: 6px;">Seconds</small>
+            </div>
+          </div>
+        </section>
+
+        <!-- Outdoor Lawn Venue & Event Details Card -->
+        <section id="venue" aria-label="Venue and Event Details">
+          <div class="venue-container" style="width: 100%; max-width: 1000px;">
+            <div class="event-card glass-panel" style="padding: clamp(30px, 6vw, 60px); display: flex; flex-direction: column; align-items: center; gap: 32px;">
+              <h2 class="script-text" style="font-size: clamp(2.5rem, 5vw, 4rem);">Engagement Celebration</h2>
+              
+              <div class="details-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; width: 100%;">
+                <div class="detail-item" style="padding: 24px; background: rgba(0, 0, 0, 0.25); border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.25);">
+                  <h3 class="text-gold" style="font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">📅 Date</h3>
+                  <p style="font-size: 1.2rem; color: var(--text-ivory); font-weight: 600;">21 October 2026</p>
+                </div>
+                <div class="detail-item" style="padding: 24px; background: rgba(0, 0, 0, 0.25); border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.25);">
+                  <h3 class="text-gold" style="font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">🕕 Time</h3>
+                  <p style="font-size: 1.2rem; color: var(--text-ivory); font-weight: 600;">6:30 PM – 9:00 PM IST</p>
+                </div>
+                <div class="detail-item" style="padding: 24px; background: rgba(0, 0, 0, 0.25); border-radius: 16px; border: 1px solid rgba(212, 175, 55, 0.25);">
+                  <h3 class="text-gold" style="font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;">📍 Venue</h3>
+                  <p style="font-size: 1.2rem; color: var(--text-ivory); font-weight: 600;"><strong style="color: var(--gold-light);">Eden Garden</strong><br>Tirunelveli, Tamil Nadu</p>
+                </div>
+              </div>
+
+              <!-- Embedded Map -->
+              <div class="map-embed-wrapper" style="width: 100%; border-radius: 18px; overflow: hidden; border: 1.5px solid var(--gold-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.5!2d77.6966!3d8.7293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwNDMnNDUuNSJOIDc3wrA0MScwNy45IkU!5e0!3m2!1sen!2sin!4v1696000000000!5m2!1sen!2sin"
+                  width="100%"
+                  height="280"
+                  style="border: none; display: block;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  title="Eden Garden, Tirunelveli Location"
+                ></iframe>
+              </div>
+
+              <div class="button-group" style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; width: 100%;">
+                <button id="btn-maps" class="primary-btn" style="background: var(--gold-gradient); color: #000; border: none; padding: 14px 32px; border-radius: 40px; font-weight: 600; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase;">
+                  📍 Open in Google Maps
+                </button>
+                <button id="btn-calendar" class="secondary-btn" style="background: transparent; color: var(--gold-light); border: 1.5px solid var(--gold-primary); padding: 14px 32px; border-radius: 40px; font-weight: 600; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase;">
+                  📅 Add to Calendar
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Virtual Toast Interactive Section -->
+        <section id="toast-section" aria-label="Virtual Toast Widget">
+          <div class="toast-widget-card glass-panel">
+            <h2 class="script-text" style="font-size: clamp(2.2rem, 4vw, 2.8rem); color: var(--gold-light);">Raise a Virtual Toast 🥂</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 480px;">Join guests from around the world in raising a toast to Laxman &amp; Abi!</p>
+            
+            <div class="toast-counter-display">
+              <span id="toast-count-num">142</span> <small style="font-size: 1rem; color: var(--text-ivory);">Toasts Raised</small>
+            </div>
+
+            <button id="btn-raise-toast" class="primary-btn" style="background: var(--gold-gradient); color: #000; border: none; padding: 16px 44px; border-radius: 40px; font-weight: 700; font-size: 1.05rem; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase;">
+              🥂 Raise a Toast
+            </button>
+          </div>
+        </section>
+
+        <!-- "Leave a Message" Guestbook Section -->
+        <section id="guestbook" aria-label="Guestbook Section">
+          <div class="glass-panel" style="padding: 50px 40px; width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 24px;">
+            <h2 class="script-text" style="font-size: clamp(2.4rem, 5vw, 3.8rem);">Leave a Message</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Share your warm wishes and blessings for Laxman &amp; Abi!</p>
+
+            <div class="guestbook-container">
+              <form id="guestbook-form" class="guestbook-form">
+                <textarea id="guestbook-input" class="guestbook-textarea" placeholder="Write your wish or message here..." required></textarea>
+                <button type="submit" class="primary-btn" style="background: var(--gold-gradient); color: #000; border: none; padding: 12px 28px; border-radius: 30px; font-weight: 700; cursor: pointer; align-self: flex-end;">
+                  Post Message 💌
+                </button>
+              </form>
+
+              <div class="messages-list" id="messages-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Final Message & Sharing -->
+        <section id="thanks" aria-label="Final Message and Share">
+          <div class="thanks-content" style="display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 700px;">
+            <h2 class="script-text" style="font-size: clamp(2.2rem, 5vw, 3.8rem);">We can't wait to celebrate with you.</h2>
+            <p style="font-size: 1.25rem; color: var(--text-muted);">With love,<br><strong style="color: var(--text-ivory); font-size: 1.4rem;">LAXMAN &amp; ABI</strong></p>
+            <div class="gold-line-center"></div>
+            <p style="font-size: 0.9rem; letter-spacing: 4px; color: var(--gold-light);">21 • 10 • 2026</p>
+            
+            <div class="button-group" style="display: flex; gap: 18px; margin-top: 24px; flex-wrap: wrap; justify-content: center;">
+              <button id="btn-whatsapp" class="primary-btn" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 40px; font-weight: 600; cursor: pointer;">
+                💬 Share on WhatsApp
+              </button>
+              <button id="btn-share" class="share-btn" style="background: rgba(232, 180, 184, 0.15); color: var(--rose-accent); border: 1px solid rgba(232, 180, 184, 0.4); padding: 14px 28px; border-radius: 40px; font-weight: 600; cursor: pointer;">
+                🔗 Share Invitation
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

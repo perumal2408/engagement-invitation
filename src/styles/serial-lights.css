@@ -1,0 +1,49 @@
+/* Non-Fixed Swaying Serial Lights Canopy Styles */
+
+#serial-lights-canopy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 140px;
+  pointer-events: none;
+  z-index: 80;
+  overflow: visible;
+  animation: sway-canopy 6s infinite ease-in-out;
+  transform-origin: top center;
+}
+
+@keyframes sway-canopy {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(0.8deg) translateY(2px); }
+}
+
+.string-wire {
+  stroke: rgba(255, 255, 255, 0.45);
+  stroke-width: 1.8;
+  fill: none;
+}
+
+.light-bulb {
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.25s ease;
+  transform-origin: center;
+}
+
+.light-bulb circle.glow {
+  fill: #fff7d6;
+  filter: drop-shadow(0 0 8px #ffd700) drop-shadow(0 0 16px #ffaa00);
+  transition: filter 0.3s ease, fill 0.3s ease;
+}
+
+.light-bulb.bright circle.glow {
+  fill: #ffffff;
+  filter: drop-shadow(0 0 18px #ffffff) drop-shadow(0 0 32px #ffd700) drop-shadow(0 0 48px #ffaa00);
+  transform: scale(1.4);
+}
+
+.light-bulb:hover circle.glow {
+  transform: scale(1.6);
+  filter: drop-shadow(0 0 22px #ffffff) drop-shadow(0 0 38px #ffe066);
+}
