@@ -227,7 +227,7 @@ body.cursor-hover .custom-cursor-ring {
   box-shadow: 0 0 15px var(--gold-glow);
 }
 
-/* Floating Navigation — above serial lights */
+/* Desktop Floating Navigation */
 #floating-nav {
   position: fixed;
   top: 24px;
@@ -276,6 +276,124 @@ body.cursor-hover .custom-cursor-ring {
   height: 2px;
   background: var(--gold-gradient);
   border-radius: 2px;
+}
+
+/* Mobile Floating Menu Button (Hidden by default on desktop) */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 50000;
+  background: rgba(144, 5, 12, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid var(--gold-primary);
+  color: var(--gold-light);
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px var(--gold-glow);
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition-smooth);
+}
+
+.mobile-menu-btn:hover {
+  transform: scale(1.05);
+  background: var(--gold-primary);
+  color: #000;
+}
+
+/* Mobile Full-Screen Glass Drawer */
+.mobile-nav-drawer {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 6, 13, 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.mobile-nav-drawer.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-drawer-content {
+  background: var(--bg-card-glass);
+  border: 1.5px solid var(--gold-primary);
+  border-radius: 28px;
+  padding: 36px 22px 28px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--gold-glow);
+  transform: scale(0.92);
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mobile-nav-drawer.active .mobile-drawer-content {
+  transform: scale(1);
+}
+
+.mobile-drawer-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-light);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mobile-drawer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.mobile-nav-item {
+  display: block;
+  padding: 12px 18px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 16px;
+  color: var(--text-ivory);
+  text-decoration: none;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: var(--transition-smooth);
+}
+
+.mobile-nav-item:hover, .mobile-nav-item:active {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--gold-light);
+  color: var(--gold-light);
 }
 
 /* Floating Music Control */

@@ -26,20 +26,14 @@
     display: none !important;
   }
 
+  /* Hide desktop top navbar on mobile completely to prevent overlapping the hero */
   #floating-nav {
-    top: 16px;
-    width: 92%;
-    max-width: 420px;
+    display: none !important;
   }
 
-  #floating-nav ul {
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  #floating-nav a {
-    font-size: 0.72rem;
+  /* Show sleek, non-intrusive mobile menu button */
+  .mobile-menu-btn {
+    display: flex !important;
   }
 
   /* Compact Spacing Between Widgets on Mobile */

@@ -68,7 +68,7 @@
     <!-- Main Web App -->
     <div id="app" style="opacity: 0;">
       
-      <!-- Minimal Floating Navigation -->
+      <!-- Desktop Floating Navigation -->
       <nav id="floating-nav" aria-label="Main Navigation">
         <ul>
           <li><a href="#hero-section" class="nav-link active">Home</a></li>
@@ -79,6 +79,32 @@
           <li><a href="#guestbook" class="nav-link">Guestbook</a></li>
         </ul>
       </nav>
+
+      <!-- Mobile Floating Menu Toggle Button -->
+      <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open Navigation Menu">
+        <span class="menu-icon">☰</span>
+        <span class="menu-text">Menu</span>
+      </button>
+
+      <!-- Mobile Navigation Full-Screen Glass Drawer -->
+      <div id="mobile-nav-drawer" class="mobile-nav-drawer" role="dialog" aria-label="Mobile Navigation">
+        <div class="mobile-drawer-content">
+          <button id="mobile-drawer-close" class="mobile-drawer-close" aria-label="Close Menu">✕</button>
+          <div class="drawer-header">
+            <h2 class="script-text" style="font-size: 2.2rem; color: var(--gold-light); margin-bottom: 4px;">Laxman &amp; Abi</h2>
+            <p style="font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);">Engagement Celebration</p>
+          </div>
+          <div class="gold-line-center" style="margin: 14px auto;"></div>
+          <ul class="mobile-drawer-links">
+            <li><a href="#hero-section" class="mobile-nav-item">🏡 Home</a></li>
+            <li><a href="#story" class="mobile-nav-item">💍 Our Story</a></li>
+            <li><a href="#scratch-section" class="mobile-nav-item">✨ Scratch Card</a></li>
+            <li><a href="#date" class="mobile-nav-item">📅 Save the Date</a></li>
+            <li><a href="#venue" class="mobile-nav-item">📍 Venue Details</a></li>
+            <li><a href="#guestbook" class="mobile-nav-item">💌 Guestbook</a></li>
+          </ul>
+        </div>
+      </div>
 
       <!-- Music Toggle Button -->
       <button id="music-toggle" aria-label="Toggle Ambient Audio" title="Toggle Background Music">

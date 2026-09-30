@@ -13,6 +13,7 @@ import { initParallax } from './animations/parallax.js';
 import { initEasterEgg } from './animations/easterEgg.js';
 
 import { initNameModal } from './interactions/nameModal.js';
+import { initMobileNav } from './interactions/mobileNav.js';
 import { initGlobalClickShower } from './interactions/clickShower.js';
 
 import { initScratchCard } from './components/scratchCard.js';
@@ -45,6 +46,9 @@ function initApp() {
   } catch (err) {
     console.warn("WebGL Scene note:", err);
   }
+
+  // Mobile Navigation Drawer
+  initMobileNav();
 
   // Name Entry Modal & Personalized Greeting
   initNameModal();
